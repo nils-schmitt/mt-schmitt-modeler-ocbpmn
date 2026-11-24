@@ -1,5 +1,5 @@
 {
-  "name": "@bptlab/openbpt-modeler-bpmn",
+  "name": "mt-schmitt-modeler-ocbpmn",
   "version": "1.0.0",
   "description": "A fork of the bpmn-js repository with extensions for the OpenBPT project.",
   "publishConfig": {
