@@ -2041,8 +2041,32 @@ describe('features/popup-menu - replace menu provider', function() {
 
       beforeEach(bootstrapModeler(diagramXMLDataElements, { modules: testModules }));
 
+      it('should toggle properties on a data output association', inject(function(canvas, elementRegistry, modeling) {
 
-      it('should only contain data store reference', inject(function(elementRegistry) {
+        // given
+        var task = modeling.createShape(
+          { type: 'bpmn:Task' },
+          { x: 100, y: 100 },
+          canvas.getRootElement()
+        );
+        var dataObjectReference = elementRegistry.get('DataObjectReference_1');
+        var association = modeling.connect(task, dataObjectReference, {
+          type: 'bpmn:DataOutputAssociation'
+        });
+
+        // when
+        openPopup(association);
+        triggerAction('toggle-adding');
+
+        // then
+        expect(association.businessObject.adding).to.be.true;
+        expect(association.businessObject.deleting).not.to.be.true;
+        expect(association.businessObject.unlocking).not.to.be.true;
+        expect(dataObjectReference.businessObject.adding).not.to.be.true;
+      }));
+
+
+      it('should contain data object flags without data store reference', inject(function(elementRegistry) {
 
         // given
         var dataObjectReference = elementRegistry.get('DataObjectReference_1');
@@ -2051,10 +2075,85 @@ describe('features/popup-menu - replace menu provider', function() {
         openPopup(dataObjectReference);
 
         // then
-        expect(queryBodyEntries()).to.have.length(1);
+        expect(queryBodyEntries()).to.have.length(0);
         expect(queryEntry('toggle-is-collection')).to.exist;
-        expect(queryEntry('replace-with-data-store-reference')).to.exist;
+        expect(queryEntry('toggle-adding')).to.exist;
+        expect(queryEntry('toggle-deleting')).to.exist;
+        expect(queryEntry('toggle-FO')).to.exist;
+        expect(queryEntry('replace-with-data-store-reference')).to.be.null;
         expect(queryEntry('replace-with-data-object-reference')).to.be.null;
+      }));
+
+
+      it('should activate a data object flag', inject(function(elementRegistry) {
+
+        // given
+        var dataObjectReference = elementRegistry.get('DataObjectReference_1');
+
+        openPopup(dataObjectReference);
+
+        // when
+        triggerAction('toggle-adding');
+
+        // then
+        expect(dataObjectReference.businessObject.adding).to.be.true;
+        expect(dataObjectReference.businessObject.deleting).not.to.be.true;
+        expect(dataObjectReference.businessObject.FO).not.to.be.true;
+      }));
+
+
+      it('should restrict conflicting data object flags', inject(function(elementRegistry) {
+
+        // given
+        var dataObjectReference = elementRegistry.get('DataObjectReference_1');
+
+        openPopup(dataObjectReference);
+
+        // when
+        triggerAction('toggle-adding');
+        openPopup(dataObjectReference);
+        triggerAction('toggle-FO');
+
+        // then
+        expect(dataObjectReference.businessObject.adding).not.to.be.true;
+        expect(dataObjectReference.businessObject.deleting).not.to.be.true;
+        expect(dataObjectReference.businessObject.FO).to.be.true;
+
+        // when
+        openPopup(dataObjectReference);
+        triggerAction('toggle-deleting');
+
+        // then
+        expect(dataObjectReference.businessObject.adding).not.to.be.true;
+        expect(dataObjectReference.businessObject.deleting).to.be.true;
+        expect(dataObjectReference.businessObject.FO).not.to.be.true;
+      }));
+
+
+      it('should restrict FO and collection flags', inject(function(elementRegistry) {
+
+        // given
+        var dataObjectReference = elementRegistry.get('DataObjectReference_1');
+        var dataObject = dataObjectReference.businessObject.dataObjectRef;
+
+        openPopup(dataObjectReference);
+
+        // when
+        triggerAction('toggle-is-collection');
+        openPopup(dataObjectReference);
+        triggerAction('toggle-FO');
+
+        // then
+        expect(dataObject.isCollection).not.to.be.true;
+        expect(dataObjectReference.businessObject.FO).to.be.true;
+
+        // when
+        openPopup(dataObjectReference);
+        triggerAction('toggle-is-collection');
+
+        // then
+        expect(dataObject.isCollection).to.be.true;
+        expect(dataObjectReference.businessObject.FO).not.to.be.true;
       }));
 
 

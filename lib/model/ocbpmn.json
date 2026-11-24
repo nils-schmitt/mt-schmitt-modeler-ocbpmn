@@ -11,6 +11,42 @@
       "superClass": [
         "bpmn:Association"
       ]
+    },
+    {
+      "name": "DataObject",
+      "extends": [
+        "bpmn:DataObject"
+      ],
+      "properties": [
+        {
+          "name": "isFO",
+          "type": "Boolean",
+          "isAttr": true
+        }
+      ]
+    },
+    {
+      "name": "DataOutputAssociation",
+      "extends": [
+        "bpmn:DataOutputAssociation"
+      ],
+      "properties": [
+        {
+          "name": "isAdding",
+          "type": "Boolean",
+          "isAttr": true
+        },
+        {
+          "name": "isRemoving",
+          "type": "Boolean",
+          "isAttr": true
+        },
+        {
+          "name": "isUnlocking",
+          "type": "Boolean",
+          "isAttr": true
+        }
+      ]
     }
   ],
   "enumerations": []
