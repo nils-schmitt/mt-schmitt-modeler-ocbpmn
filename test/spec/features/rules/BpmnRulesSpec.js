@@ -333,6 +333,28 @@ describe('features/modeling/rules - BpmnRules', function() {
       });
     }));
 
+    it('connect DataObjectReference -> DataObjectReference_2', inject(function() {
+
+      expectCanConnect('DataObjectReference', 'DataObjectReference_2', {
+        sequenceFlow: false,
+        messageFlow: false,
+        association: true,
+        dataAssociation: false,
+        linkAssociation: true
+      });
+
+      getBpmnJS().invoke(function(bpmnRules, elementRegistry) {
+        var source = elementRegistry.get('DataObjectReference'),
+            target = elementRegistry.get('DataObjectReference_2'),
+            allowed = bpmnRules.canConnect(source, target);
+
+        expect(allowed).to.eql({
+          type: 'ocbpmn:LinkAssociation',
+          associationDirection: 'None'
+        });
+      });
+    }));
+
 
     it('connect StartEvent_None -> DataObjectReference', inject(function() {
 

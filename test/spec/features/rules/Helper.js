@@ -34,6 +34,10 @@ export function expectCanConnect(source, target, rules) {
       results.association = bpmnRules.canConnectAssociation(source, target);
     }
 
+    if ('linkAssociation' in rules) {
+      results.linkAssociation = bpmnRules.canConnectLinkAssociation(source, target);
+    }
+
     if ('dataAssociation' in rules) {
       results.dataAssociation = bpmnRules.canConnectDataAssociation(source, target);
     }

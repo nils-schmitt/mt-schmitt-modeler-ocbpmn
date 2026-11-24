@@ -19,6 +19,7 @@
     </bpmn2:subProcess>
     <bpmn2:endEvent id="EndEvent_None" />
     <bpmn2:dataObjectReference id="DataObjectReference" dataObjectRef="DataObject" />
+    <bpmn2:dataObjectReference id="DataObjectReference_2" dataObjectRef="DataObject" />
     <bpmn2:dataObject id="DataObject" />
     <bpmn2:dataStoreReference id="DataStoreReference" name="" dataStoreRef="DataStore_1" />
     <bpmn2:subProcess id="CollapsedSubProcess" />
@@ -77,6 +78,9 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="574" y="212" width="90" height="20" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_2_di" bpmnElement="DataObjectReference_2">
+        <dc:Bounds x="801" y="212" width="36" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_DataStoreReference_2" bpmnElement="DataStoreReference">
         <dc:Bounds x="771" y="211" width="50" height="50" />

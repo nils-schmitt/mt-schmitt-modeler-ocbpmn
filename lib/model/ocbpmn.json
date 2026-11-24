@@ -1,0 +1,17 @@
+{
+  "name": "ocbpmn",
+  "uri": "http://ocbpmn.org/schema/bpmn",
+  "prefix": "ocbpmn",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "types": [
+    {
+      "name": "LinkAssociation",
+      "superClass": [
+        "bpmn:Association"
+      ]
+    }
+  ],
+  "enumerations": []
+}
